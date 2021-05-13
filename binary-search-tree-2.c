@@ -71,8 +71,8 @@ int main()
 		printf(" Level Order (Queue)  = l      Quit                         = q \n");
 		printf("----------------------------------------------------------------\n");
         
-		printf("¼º¸í: ½ÅÅÂ¾ç\n");
-		printf("ÇĞ¹ø: 2017038096\n");
+		printf("ì„±ëª…: ì‹ íƒœì–‘\n");
+		printf("í•™ë²ˆ: 2017038096\n");
 		printf("Command = ");
 		scanf(" %c", &command);
 
@@ -174,24 +174,25 @@ void iterativeInorder(Node* node)
  */
 void levelOrder(Node* ptr)
 {
-front = rear = -1;	
-Node *queue[MAX_QUEUE_SIZE];
-if (!ptr) 
-return; /* empty tree */
-enQueue(ptr);
-for (;;) {
-ptr = deQueue();
-if (ptr) {
-printf(" [%d] ", ptr->key);
-if(ptr->left){
-enQueue(ptr->left);
-}
-if (ptr->right){
-enQueue(ptr->right);
-} 
-else break;
-} 
-}
+if (!ptr)
+		return;
+	
+	enQueue(ptr);  
+
+	while (1) {
+		ptr = deQueue();
+		if (ptr)
+		{
+			printf(" [%d] ", ptr->key);
+
+			if (ptr->left)
+				enQueue(ptr->left);
+			if (ptr->right)
+				enQueue(ptr->right);
+		}
+		else
+			break; 
+	}
 }
 
 int isEmpty(){
@@ -267,7 +268,7 @@ while((p != NULL) && (p -> key != key)){
     if(key < p -> key) p = p -> left;
     else p = p -> right;
 }
-// »èÁ¦ÇÏ°íÀÚ ÇÏ´Â ³ëµå°¡ ´Ü¸»³ëµå ÀÏ¶§
+// ì‚­ì œí•˜ê³ ì í•˜ëŠ” ë…¸ë“œê°€ ë‹¨ë§ë…¸ë“œ ì¼ë•Œ
 if((p -> left == NULL) && (p -> right == NULL)){
     if(parent != NULL){
         if(parent -> left == p) parent -> left = NULL;
@@ -275,7 +276,7 @@ if((p -> left == NULL) && (p -> right == NULL)){
     }
     else head = NULL;
 }
-// »èÁ¦ÇÏ°íÀÚ ÇÏ´Â ³ëµå°¡ ÇÏ³ªÀÇ ÀÚ½Ä¸¸À» °¡Áú ¶§
+// ì‚­ì œí•˜ê³ ì í•˜ëŠ” ë…¸ë“œê°€ í•˜ë‚˜ì˜ ìì‹ë§Œì„ ê°€ì§ˆ ë•Œ
 else if((p->left == NULL) || (p ->right == NULL)){
     if(p -> left != NULL) child = p -> left;
     else child = p -> right;
@@ -286,7 +287,7 @@ else if((p->left == NULL) || (p ->right == NULL)){
     }
     else head = child;
 }
-// »èÁ¦ÇÏ°íÀÚ ÇÏ´Â ³ëµå°¡ µÎ°³ÀÇ ÀÚ½ÄÀ» °¡Áú ¶§
+// ì‚­ì œí•˜ê³ ì í•˜ëŠ” ë…¸ë“œê°€ ë‘ê°œì˜ ìì‹ì„ ê°€ì§ˆ ë•Œ
 else{
     succ_parent = p;
     succ = p -> left;
