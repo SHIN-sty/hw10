@@ -91,7 +91,7 @@ int main()
 		case 'd': case 'D':
 			printf("Your Key = ");
 			scanf("%d", &key);
-			deleteNode(head, key);
+			deleteNode(head->left, key);
 			break;
 
 		case 'r': case 'R':
