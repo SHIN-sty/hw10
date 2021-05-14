@@ -128,7 +128,7 @@ int initializeBST(Node** h) {
 	/* create a head node */
 	*h = (Node*)malloc(sizeof(Node));
 	(*h)->left = NULL;	/* root */
-	(*h)->right = *h;
+	(*h)->right = NULL;
 	(*h)->key = -9999;
 
 	top = -1;
@@ -258,49 +258,125 @@ int insert(Node* head, int key)
 
 int deleteNode(Node* head, int key)
 {
-Node *parent, *p, *succ, *succ_parent;
-Node *child;
+Node *p,*child,*succ,*succ_p,*t;
 
-parent=NULL;
-p = head;
-while((p != NULL) && (p -> key != key)){
-    parent =p;
-    if(key < p -> key) p = p -> left;
-    else p = p -> right;
-}
-// 삭제하고자 하는 노드가 단말노드 일때
-if((p -> left == NULL) && (p -> right == NULL)){
-    if(parent != NULL){
-        if(parent -> left == p) parent -> left = NULL;
-        else parent -> right = NULL;
-    }
-    else head = NULL;
-}
-// 삭제하고자 하는 노드가 하나의 자식만을 가질 때
-else if((p->left == NULL) || (p ->right == NULL)){
-    if(p -> left != NULL) child = p -> left;
-    else child = p -> right;
+ //key를 갖는 노드 t를 탐색, p는 t의 부모노드
 
-    if(parent !=NULL){
-        if(parent -> left == p) parent -> left = child; 
-        else parent -> right = child;
-    }
-    else head = child;
+ p = NULL;
+
+ t = head;
+
+ //key를 갖는 노드 t를 탐색한다.
+
+ while(t != NULL && t->key != key){
+
+  p = t;
+
+  t = (key<t->key)? t->left:t->right;
+
+ }
+
+ //탐색이 종료된 시점에세 t가 NULL이면 트리안에 key가 없음
+
+ if(t == NULL){//탐색트리에 없는 키
+
+  printf("key is not in the tree");
+
+  return -1;
+
+ }
+
+ //첫번째 경우:단말노드인 경우
+
+ if(t->left == NULL && t->right == NULL){
+
+         if(p != NULL){
+
+                 //부모노드의 자식 필드를 NULL로 만든다.
+
+                 if(p->left==t)
+
+                         p->left=NULL;
+
+                 else p->right=NULL;
+
+         }
+
+
+
+  else//만약 부모노드가 NULL이면 삭제되는 노드가 루트
+
+   head = NULL;
+
 }
-// 삭제하고자 하는 노드가 두개의 자식을 가질 때
-else{
-    succ_parent = p;
-    succ = p -> left;
-    while(succ -> right != NULL){
-        succ_parent = succ;
-        succ = succ -> right;
-    }
-    if(succ_parent -> left == succ) succ_parent -> left = succ -> left;
-    else succ_parent -> right = succ -> left;
-    p -> key = succ -> key;
-    p = succ;
-}
-free(p);
+
+
+
+ //두번째 경우 : 하나의 자식만을 가지는 경우
+
+ else if((t->left==NULL) || (t->right == NULL)){
+
+  child = (t->left!=NULL)? t->left:t->right;
+
+  if(p != NULL){
+
+          if(p->left ==t)//부모를 자식과 연결
+
+                  p->left=child;
+
+  else p->right = child;
+
+  }
+
+ else //만약 부모노드가 NULL이면 삭제되는 노드가 루트
+
+         head=child;
+
+ }
+
+//세번째 경우: 두개의 자식을 가지는 경우
+
+ else{
+
+//오른쪽 서브 트리에서 후계자를 찾는다.
+
+         succ_p = t;
+
+         succ = t->right;
+
+  //후계자를 찾아 계속 왼쪽으로 이동한다.
+
+  while(succ->left != NULL){
+
+   succ_p = succ;
+
+   succ = succ->left;
+
+  }
+
+  //후속자와 부모와 자식을 연결
+
+  if(succ_p->left == succ)
+
+   succ_p->left = succ->right;
+
+  else
+
+   succ_p->right = succ->right;
+
+  //후속자가 가진 키값을 현재 노드에 복사
+
+  t->key = succ->key;
+
+  //원래의 후속자 삭제
+
+  t = succ;
+
+ }
+
+ free(t);
+
+ return 1;
 }
 
 
