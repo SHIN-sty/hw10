@@ -307,7 +307,7 @@ Node *p,*child,*succ,*succ_p,*t;
   else//만약 부모노드가 NULL이면 삭제되는 노드가 루트
 
    head = NULL;
-
+   free(t);
 }
 
 
@@ -331,7 +331,7 @@ Node *p,*child,*succ,*succ_p,*t;
  else //만약 부모노드가 NULL이면 삭제되는 노드가 루트
 
          head=child;
-
+ free(t);
  }
 
 //세번째 경우: 두개의 자식을 가지는 경우
@@ -355,26 +355,13 @@ Node *p,*child,*succ,*succ_p,*t;
   }
 
   //후속자와 부모와 자식을 연결
-
-  if(succ_p->left == succ)
-
-   succ_p->left = succ->right;
-
-  else
-
-   succ_p->right = succ->right;
-
-  //후속자가 가진 키값을 현재 노드에 복사
-
-  t->key = succ->key;
-
-  //원래의 후속자 삭제
-
-  t = succ;
-
+   int temp = succ->key;
+      succ->key=t->key;
+      t->key=temp;
+      deleteNode(succ_p, key);
  }
 
- free(t);
+ 
 
  return 1;
 }
