@@ -206,7 +206,7 @@ int isEmpty(){
 void printStack() {
 	if(!isEmpty()) {
 		for(int i=0; i <= top; i++){
-			printf(" [%c] ", stack[i]);
+			printf(" [%d] ", stack[i]->key);
 		}
 		printf("\n");
 	}
